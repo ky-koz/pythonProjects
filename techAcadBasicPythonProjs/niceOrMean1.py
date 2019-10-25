@@ -13,15 +13,18 @@
 
 
 def start():
-    print(get_number())
+    print(get_number()) # this built-in fn will call the second fn
 
     def get_number():
-        number = 12
+        number = 12 #variable name
         return number
 
 
 
-
+'''
+return will output the value back to whatever is calling it
+print will output text directly to the screen
+'''
 
     
 

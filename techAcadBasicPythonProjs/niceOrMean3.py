@@ -12,7 +12,7 @@
 #           back to the calling function.
 
 
-def start():
+def start(): # start fn will be containing the  variables
     fname = "Sarah"
     lname = "Conner"
     age = 28
@@ -22,7 +22,8 @@ def start():
 
 def get_info(fname,lname,age,gender):
     print("My name is {} {}. I am {} year old {}.".format(fname,lname,age,gender))
-
+    # {} wildcards will fire off in order,
+    # can also put numbers in for readablilty ex: {0} {1} {2}
 
 
 

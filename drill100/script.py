@@ -62,6 +62,6 @@ corresponding mtime to the console.
 """
 print("\nFiles that end in .txt from Drill100:")
 
-txtList = 
+# txtList = 
 
 

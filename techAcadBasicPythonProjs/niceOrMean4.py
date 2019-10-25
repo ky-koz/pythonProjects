@@ -28,7 +28,7 @@ def describe_game(name):
     """
     # meaning, if we do not already have this user's name,
     # then they are a new player and we need to get their name
-    if name != "":
+    if name != "": # if the name is not an empty value, already stored fr om prev play
         print("\nThank you for playing again, {}!".format(name))
     else:
         stop = True
