@@ -45,7 +45,7 @@ from the OS module to find the latest date that each
 text file has been created or modified.
 """
 
-mod_time = os.path.getmtime(fPath)
+mod_time = os.path.getmtime(fPath) # use a variable for the abs path of each file
 print("\nLast modification time since the epoch:",mod_time)
 
 local_time = time.ctime(mod_time)
