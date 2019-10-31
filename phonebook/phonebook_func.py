@@ -10,6 +10,7 @@
 
 import os
 from tkinter import *
+from tkinter import messagebox
 import tkinter as tk
 import sqlite3
 
@@ -29,7 +30,7 @@ def center_window(self, w, h): # pass in the tkinter fram(master) reference and 
     return centerGeo
 
 # catch if the user clicks on the windows upper-right 'X' to ensure they want to close
-def ask_quite(self):
+def ask_quit(self):
     if messagebox.askokcancel("Exit program", "Okay to exit application?"): # tkinter messagebox: window {title/name}{message}
         # this closes app
         self.master.destroy()
@@ -156,7 +157,7 @@ def onDelete(self): # to delete something in the database
                 conn = sqlite3.connect('db_phonebook.db')
                 with conn:
                     cursor = conn.cursor()
-                    cursor.execute("""DELETE FROM tbl_phonebook WHERE col_fullname = '{}'""".format(varselect))
+                    cursor.execute("""DELETE FROM tbl_phonebook WHERE col_fullname = '{}'""".format(var_select))
                 onDeleted(self) # call the function to clear all of the textboxes and the selected index of listbox
                 # onRefresh(self) # update the listbox of the changes
                 conn.commit()
@@ -207,7 +208,7 @@ def onRefresh(self):
 
 def onUpdate(self): # to update info or make changes
     try:
-        var_select = sef.lstList1.curselection()[0] # index of the list selection
+        var_select = self.lstList1.curselection()[0] # index of the list selection
         var_value = self.lstList1.get(var_select)# list selecion's text value
     except:
         messagebox.showinfo("Missing selection","No name was selected from the list box. \nCancelling \
@@ -227,7 +228,7 @@ def onUpdate(self): # to update info or make changes
             count = cur.fetchone()[0]
             print(count)
             cur.execute("""SELECT COUNT(col_email) FROM tbl_phonebook WHERE col_email = '{}'""".format(var_email))
-            count2 = curfetchone()[0] # where we're getting the return value back
+            count2 = cur.fetchone()[0] # where we're getting the return value back
             print(count2)
             if count == 0 or count2 == 0: # if proposed changes are not already in the db, then proceed
                 response = messagebox.askokcancel("Update Request","The following changes ({}) and ({}). \

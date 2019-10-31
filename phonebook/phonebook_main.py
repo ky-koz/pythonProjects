@@ -10,6 +10,7 @@
 
 from tkinter import *
 import tkinter as tk
+from tkinter import messagebox
 
 # these are our imported methods
 import phonebook_gui
