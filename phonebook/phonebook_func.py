@@ -20,7 +20,7 @@ import phonebook_gui
 
 
 def center_window(self, w, h): # pass in the tkinter fram(master) reference and the w and h
-    # get the user's screen width amd height
+    # get the user's screen width and height
     screen_width = self.master.winfo_screenwidth() # naming it screen_width
     screen_height = self.master.winfo_screenheight()
     # calculate x and y coordinates to paint the app centered on the user's screen
