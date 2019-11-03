@@ -21,13 +21,13 @@ def load_gui(self):
     self.txt_browse2 = tk.Entry(self.master,text='')
     self.txt_browse2.grid(row=2,column=1,rowspan=1,columnspan=3,padx=(35,45),pady=(12,0),sticky=N+E+W)
 
-    self.lbl_blank1 = tk.Label(self.master,text='')
+    self.lbl_blank1 = tk.Label(self.master,text=' ')
     self.lbl_blank1.grid(row=3,column=2,padx=(35,45),pady=(12,0),sticky=E)
-    self.lbl_blank2 = tk.Label(self.master,text='')
+    self.lbl_blank2 = tk.Label(self.master,text=' ')
     self.lbl_blank2.grid(row=3,column=3,padx=(35,45),pady=(12,0),sticky=E)
-    self.lbl_blank3 = tk.Label(self.master,text='')
+    self.lbl_blank3 = tk.Label(self.master,text=' ')
     self.lbl_blank3.grid(row=3,column=4,padx=(35,45),pady=(12,0),sticky=E)
-    self.lbl_blank4 = tk.Label(self.master,text='')
+    self.lbl_blank4 = tk.Label(self.master,text=' ')
     self.lbl_blank4.grid(row=3,column=4,padx=(35,45),pady=(12,0),sticky=E)
 
     # btns
