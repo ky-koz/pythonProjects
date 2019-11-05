@@ -38,11 +38,11 @@ class ParentWindow(Frame):
 
         # master frame configuration
         self.master = master
-        self.master.minsize(500,160)
-        self.master.maxsize(500,160)
+        self.master.minsize(500,180)
+        # self.master.maxsize(500,160)
 
         # center window method
-        drill122_func.center_window(self,500,200)
+        drill122_func.center_window(self,500,180)
         self.master.title("Search Directory")
         self.master.configure(bg="#F0F0F0")
 

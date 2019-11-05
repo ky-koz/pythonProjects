@@ -34,9 +34,6 @@ import drill122_gui
 root = Tk()
 fileDialog = tkinter.filedialog
 
-
-
-
 def center_window(self, w, h):
     # get user's screen w x h
     screen_width = self.master.winfo_screenwidth()
@@ -46,7 +43,7 @@ def center_window(self, w, h):
     y = int((screen_height/2) - (h/2))
     centerGeo = self.master.geometry('{}x{}+{}+{}'.format(w, h, x, y))
     return centerGeo
-
+'''
 def getDir(self):
     varDir = fileDialog.askdirectory()
     varDir = StringVar(root)
@@ -55,13 +52,11 @@ def getDir(self):
     self.get.insert(varDir)
    # return self.get()
    # directoryName.set(varDir)
-
-
-
-
-
-
-    
+'''
+def getDir(self):
+    varDir = fileDialog.askdirectory()
+    if varDir:
+        self.txt_browse1.insert(INSERT,varDir)
 
 def ask_quit(self):
     if messagebox.askokcancel("Exit program", "Okay to exit application?"):

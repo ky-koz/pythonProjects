@@ -32,9 +32,11 @@ import drill122_func
 import drill122_main
 
 
+
+
 def load_gui(self):
     # txt boxes
-    self.txt_browse1 = tk.Entry(self.master, text='')#command=lambda: drill122_func.getDir(self)) # was previously text=''
+    self.txt_browse1 = tk.Entry(self.master, text='', width="50") # command=lambda: drill122_func.getDir(self)) # was previously text=''
     self.txt_browse1.grid(row=1,column=1,rowspan=1,columnspan=3,padx=(35,45),pady=(30,0),sticky=E)
     
 
@@ -42,8 +44,8 @@ def load_gui(self):
     self.btn_browse= tk.Button(self.master,width=12,height=1,text='Browse Files', command=lambda: drill122_func.getDir(self))
     # this will be used to invoke a function that pops up a module that then returns the input to the text box
     self.btn_browse.grid(row=1,column=0,padx=(15,0),pady=(30,0),sticky=W)
-    self.btn_checkForFiles = tk.Button(self.master,width=12,height=2,text='Close Program',command=lambda: drill122_func.ask_quit(self))
-    self.btn_checkForFiles.grid(row=3,column=4,columnspan=1,padx=(15,0),pady=(10,0),sticky=E)
+    self.btn_close = tk.Button(self.master,width=12,height=2,text='Close Program',command=lambda: drill122_func.ask_quit(self))
+    self.btn_close.grid(row=3,column=3,columnspan=1,padx=(30,45),pady=(15,0),sticky=E)
 
 
     
