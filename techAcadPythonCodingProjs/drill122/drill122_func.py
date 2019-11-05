@@ -19,15 +19,21 @@
 #
 #
 
+# imports
 
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
+import tkinter.filedialog
 import sqlite3
 import os
 
 import drill122_main
 import drill122_gui
+
+root = Tk()
+fileDialog = tkinter.filedialog
+
 
 
 
@@ -41,17 +47,20 @@ def center_window(self, w, h):
     centerGeo = self.master.geometry('{}x{}+{}+{}'.format(w, h, x, y))
     return centerGeo
 
-def browseFiles(self):
-    Tk().withdraw()
-    print("Initializing Dialogue...\nPlease select a directory.")
-    dirname = tk.filedialog.askdirectory(initialdir=os.getcwd(),title='Please select a directory')
-    if len(dirname) > 0:
-        print ("You chose %s" % dirname)
-        return dirname
-    else: 
-        dirname = os.getcwd()
-        print ("\nNo directory selected - initializing with %s \n" % os.getcwd())
-        return dirname
+def getDir(self):
+    varDir = fileDialog.askdirectory()
+    varDir = StringVar(root)
+    directoryName = StringVar()
+    # print(varDir)
+    self.get.insert(varDir)
+   # return self.get()
+   # directoryName.set(varDir)
+
+
+
+
+
+
     
 
 def ask_quit(self):

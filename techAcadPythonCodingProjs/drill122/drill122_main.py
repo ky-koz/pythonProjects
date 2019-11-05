@@ -24,6 +24,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
+import tkinter.filedialog
 import sqlite3
 import os
 
@@ -46,7 +47,7 @@ class ParentWindow(Frame):
         self.master.configure(bg="#F0F0F0")
 
         # u.r.corner "x"
-        self.master.protocol("WM_DELETE_WINDOW", lambda: func.ask_quit(self))
+        self.master.protocol("WM_DELETE_WINDOW", lambda: drill122_func.ask_quit(self))
         arg = self.master
 
         drill122_gui.load_gui(self)

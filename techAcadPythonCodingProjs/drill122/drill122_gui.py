@@ -23,6 +23,7 @@
 
 from tkinter import *
 import tkinter as tk
+import tkinter.filedialog
 from tkinter import messagebox
 import sqlite3
 import os
@@ -33,12 +34,12 @@ import drill122_main
 
 def load_gui(self):
     # txt boxes
-    self.txt_browse1 = tk.Entry(self.master,text='')
+    self.txt_browse1 = tk.Entry(self.master, text='')#command=lambda: drill122_func.getDir(self)) # was previously text=''
     self.txt_browse1.grid(row=1,column=1,rowspan=1,columnspan=3,padx=(35,45),pady=(30,0),sticky=E)
     
 
     # btns
-    self.btn_browse= tk.Button(self.master,width=12,height=1,text='Browse Files', command=lambda: drill122_func.browseFiles(self))
+    self.btn_browse= tk.Button(self.master,width=12,height=1,text='Browse Files', command=lambda: drill122_func.getDir(self))
     # this will be used to invoke a function that pops up a module that then returns the input to the text box
     self.btn_browse.grid(row=1,column=0,padx=(15,0),pady=(30,0),sticky=W)
     self.btn_checkForFiles = tk.Button(self.master,width=12,height=2,text='Close Program',command=lambda: drill122_func.ask_quit(self))
