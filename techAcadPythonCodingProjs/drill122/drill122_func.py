@@ -31,7 +31,7 @@ import os
 import drill122_main
 import drill122_gui
 
-root = Tk()
+
 fileDialog = tkinter.filedialog
 
 def center_window(self, w, h):

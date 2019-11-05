@@ -47,8 +47,8 @@ class ParentWindow(Frame):
         self.master.configure(bg="#F0F0F0")
 
         # u.r.corner "x"
-        self.master.protocol("WM_DELETE_WINDOW", lambda: drill122_func.ask_quit(self))
-        arg = self.master
+        # self.master.protocol("WM_DELETE_WINDOW", lambda: drill122_func.ask_quit(self))
+        # arg = self.master
 
         drill122_gui.load_gui(self)
 
