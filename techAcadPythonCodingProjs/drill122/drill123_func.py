@@ -78,16 +78,26 @@ def getDirDest(self):
 def transfer(self):
     source = self.varSource.get()
     destination = self.varDest.get()
+    fPath = source
     for files in source:
         if files.endswith(".txt"):
+            mod_time = os.path.getmtime(files)
+            abPath = os.path.join(fPath, files)
+            print("{} {}".format(files, mod_time))
             shutil.copy(files, destination)
+            conn = sqlite3.connect('drill123.db')
+            with conn:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO tbl_files(col_fname) VALUES (?, ?)", (files, mod_time,))
+            conn.commit()
+        conn.close()
 
 # direct copy from script103.py
 fileList = ('information.docx','Hello.txt','myImage.png', \
             'myMovie.mpg','World.txt','data.pdf','myPhoto.jpg')
 
 def fileDir():
-    conn = sqlite3.connect('drill103.db')
+    conn = sqlite3.connect('drill123.db')
     with conn:
         cur = conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS tbl_files( \
@@ -95,18 +105,11 @@ def fileDir():
             col_fname TEXT \
             )")
         conn.commit()
-    print("Text files from drill103.db: \n")
-    cur = conn.cursor()
-    for i in fileList:
-        if i.endswith(".txt"):
-            cur.execute("INSERT INTO tbl_files(col_fname) VALUES (?)",(i,))
-            conn.commit()
-            print(i)
     conn.close()
 # end copy from script103.py
 
 # direct copy of script2.py
-fPath = 'C:\\Users\\Kyla Kozole\\Desktop\\Repositories\\pythonProjects\\drill100'
+
 
 print("\nFiles and directories in folder Drill100\n", fPath, ":")
 
