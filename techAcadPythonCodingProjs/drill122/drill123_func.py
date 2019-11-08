@@ -65,19 +65,19 @@ def ask_quit(self):
 
 
 def getDirSource(self):
-    varSource = fileDialog.askdirectory()
-    if varSource:
-        self.txt_sourceDir.insert(INSERT,varSource)
+    btnSource = fileDialog.askdirectory()
+    if btnSource:
+        self.txt_sourceDir.insert(INSERT,btnSource)
 
 def getDirDest(self):
-    varDest = fileDialog.askdirectory()
-    if varDest:
-        self.txt_destDir.insert(INSERT,varDest)
+    btnDest = fileDialog.askdirectory()
+    if btnDest:
+        self.txt_destDir.insert(INSERT,btnDest)
 
 
 def transfer(self):
-    source = self.varSource.get
-    destination = self.varDest.get
+    source = self.varSource.get()
+    destination = self.varDest.get()
     for files in source:
         if files.endswith(".txt"):
             shutil.copy(files, destination)
