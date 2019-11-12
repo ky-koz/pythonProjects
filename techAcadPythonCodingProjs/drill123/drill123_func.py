@@ -63,93 +63,46 @@ def ask_quit(self):
         self.master.destroy()
         os._exit(0)
 
-
-def getDirSource(self):
-    btnSource = fileDialog.askdirectory()
-    if btnSource:
-        self.txt_sourceDir.insert(INSERT,btnSource)
-
-def getDirDest(self):
-    btnDest = fileDialog.askdirectory()
-    if btnDest:
-        self.txt_destDir.insert(INSERT,btnDest)
-
-
-def transfer(self):
-    source = self.varSource.get()
-    destination = self.varDest.get()
-    fPath = source
-    for files in source:
-        if files.endswith(".txt"):
-            mod_time = os.path.getmtime(files)
-            abPath = os.path.join(fPath, files)
-            print("{} {}".format(files, mod_time))
-            shutil.copy(files, destination)
-            conn = sqlite3.connect('drill123.db')
-            with conn:
-                cur = conn.cursor()
-                cur.execute("INSERT INTO tbl_files(col_fname) VALUES (?, ?)", (files, mod_time,))
-            conn.commit()
-        conn.close()
-
-# direct copy from script103.py
-fileList = ('information.docx','Hello.txt','myImage.png', \
-            'myMovie.mpg','World.txt','data.pdf','myPhoto.jpg')
-
-def fileDir():
+def fileDir(self):
     conn = sqlite3.connect('drill123.db')
     with conn:
         cur = conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS tbl_files( \
-            ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-            col_fname TEXT \
-            )")
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+                    col_fname TEXT, \
+                    col_mtime TEXT \
+                    )")
         conn.commit()
     conn.close()
-# end copy from script103.py
 
-# direct copy of script2.py
+def getDirSource(self):
+    btnSource = fileDialog.askdirectory()
+    self.txt_sourceDir.insert(INSERT,btnSource)
+
+def getDirDest(self):
+    btnDest = fileDialog.askdirectory()
+    self.txt_destDir.insert(INSERT,btnDest)
 
 
-print("\nFiles and directories in folder Drill100\n", fPath, ":")
+def transfer(self):
+    source = self.txt_sourceDir.get()
+    destination = self.txt_destDir.get()
+    sourceList = os.listdir(source)
+    fileDir(self)
+    for files in sourceList:
+        if files.endswith(".txt"):
+            abPath_src = os.path.join(source, files)
+            abPath_dest = os.path.join(destination, files)
+            mod_time = os.path.getmtime(abPath_src)
+            print("{} {}".format(files, mod_time))
+            shutil.move(abPath_src, abPath_dest)
+            conn = sqlite3.connect('drill123.db')
+            with conn:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO tbl_files(col_fname, col_mtime) VALUES (?, ?)", (files, mod_time,))
+                conn.commit()
+            conn.close()
 
-dirList = os.listdir(fPath)
-print(dirList)
-
-def fileDir():
-    print("\nFile names and mod times: \n")
-    for i in dirList:
-        if i.endswith(".txt"):
-            mod_time = os.path.getmtime(i)
-            abPath = os.path.join(fPath, i)
-            print("{} {}".format(i, mod_time))
-# end copy from script2.py
-
-#copy from phonebook_func.py --> need to change this function to include the if .txt fn
-#Select item in ListBox
-def searchDir(self,event):
-    # calling the event is the self.lstList1 widget
-    varList = event.widget # whatever is triggering the event
-    select = varList.curselection()[0] # the index of our selection
-    value = varList.get(select) # get the text of the index number
-    conn = sqlite3.connect('db_phonebook.db')
-    with conn:
-        cursor = conn.cursor() #sqlite3 cursor object
-        cursor.execute("""SELECT col_fname,col_lname,col_phone,col_email \
-            FROM tbl_phonebook WHERE col_fullname = (?)""", [value]) # only if matches the f/lname from the value(list)
-        varBody = cursor.fetchall()
-        # This returns a tuple and we can slice it into 4 parts using data[] during the iteration
-        for data in varBody:
-            # accessing different parts of the tuple that is returned
-            self.txt_fname.delete(0,END) # delete the text box to clear it
-            self.txt_fname.insert(0,data[0]) # insert the new info into the empty box
-            self.txt_lname.delete(0,END)
-            self.txt_lname.insert(0,data[1])
-            self.txt_phone.delete(0,END)
-            self.txt_phone.insert(0,data[2])
-            self.txt_email.delete(0,END)
-            self.txt_email.insert(0,data[3])
-# end copy of phonebook_func.py
 
 
 
