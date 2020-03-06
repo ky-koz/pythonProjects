@@ -12,6 +12,8 @@ Created a web application in Python using Django to store data from an API servi
 * [Create Index Page](#create-index-page)
 * [Create Details Page](#create-details-page)
 * [Create Edit and Delete Functions](#create-edit-and-delete-functions)
+* [Setup Beautiful Soup](#setup-beautiful-soup)
+* [Parse Through HTML](#parse-through-html)
 
 
 ### Build the Basic App
@@ -97,7 +99,7 @@ urlpatterns = [
 ]
 ```
 
-[Back to Top](#table-of-contents)
+[Back to Top](#general-info)
 
 ### Create Index Page
 1. Created a new index page, linked it from art home page
@@ -167,7 +169,7 @@ urlpatterns = [
     path('AddToCollection/', views.add_artWork, name='createArtWork'),  # add new artWork
 ```
 
-[Back to Top](#table-of-contents)
+[Back to Top](#general-info)
 
 ### Create Details Page
 Create a details page that will show the details of any single item from within the database, as selected by the user. Link this to the index page for each item.
@@ -241,7 +243,7 @@ urls.py
 path('Collection/<int:pk>/Details/', views.details_artWork, name='artWorkDetails'), # get details for a single art work
 ```
 
-[Back to Top](#table-of-contents)
+[Back to Top](#general-info)
 
 ### Create Edit and Delete Functions
 Allow for edit and delete functions to be done from the details page or from separate pages. Have confirmation before deleting.
@@ -355,7 +357,7 @@ path('Collection/<int:pk>/Edit/', views.edit_artWork, name='artWorkEdit'),  # ed
 path('Collection/<int:pk>/Delete/', views.delete_artWork, name='artWorkDelete'),  # delete a single art work
 ```
 
-[Back to Top](#table-of-contents)
+[Back to Top](#general-info)
 
 ### Setup Beautiful Soup
 Pt. 1
@@ -365,6 +367,7 @@ Create a new template for displaying information sourced from another website. U
 2. Used BS to get the html data from a selected site as a navigable object
 3. Utilized functions of BS to find sections of data based on tags
 
+### Parse Through HTML
 Pt. 2
 Parse through the html returned and display the information you wnat to display. Make sure you are getting the indivdual elements and stripping away any formatting you don't want. Add a link from your app's home page.
 
@@ -415,4 +418,4 @@ urls.py
  path('artNews/', views.art_news, name='artNews'),  # data scraped news from artnews
 ```
 
-[Back to Top](#table-of-contents)
+[Back to Top](#general-info)
