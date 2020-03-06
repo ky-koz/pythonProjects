@@ -97,6 +97,8 @@ urlpatterns = [
 ]
 ```
 
+[Back to Top](#table-of-contents)
+
 ### Create Index Page
 1. Created a new index page, linked it from art home page
 2. Added in a function that gets all the items from the database and sends them to the template
@@ -162,7 +164,10 @@ urls.py
 urlpatterns = [
     path('', views.home, name='art'),                                #home page
     path('Collection/', views.index, name='listArtWorks'),  # index of art works
+    path('AddToCollection/', views.add_artWork, name='createArtWork'),  # add new artWork
 ```
+
+[Back to Top](#table-of-contents)
 
 ### Create Details Page
 Create a details page that will show the details of any single item from within the database, as selected by the user. Link this to the index page for each item.
@@ -230,6 +235,13 @@ art_index.html
 ```
 <td class="col-md"><a href="{{artWork.pk}}/Details"><button class="primary-light-button">Details</button></a></td>    <!-- creates a link for that specific art work -->
 ```
+
+urls.py
+```
+path('Collection/<int:pk>/Details/', views.details_artWork, name='artWorkDetails'), # get details for a single art work
+```
+
+[Back to Top](#table-of-contents)
 
 ### Create Edit and Delete Functions
 Allow for edit and delete functions to be done from the details page or from separate pages. Have confirmation before deleting.
@@ -324,6 +336,7 @@ def edit_artWork(request, pk):
     else:                                       #Else for request not being Post method
         return render(request,'artApp/art_edit.html', {'form':form})
 
+
 #View function for deleting a art work
 def delete_artWork(request, pk):
     pk = int(pk)
@@ -336,4 +349,70 @@ def delete_artWork(request, pk):
         return render(request, 'artApp/art_delete.html', context)
 ```
 
+urls.py
+```
+path('Collection/<int:pk>/Edit/', views.edit_artWork, name='artWorkEdit'),  # edit a single art work
+path('Collection/<int:pk>/Delete/', views.delete_artWork, name='artWorkDelete'),  # delete a single art work
+```
 
+[Back to Top](#table-of-contents)
+
+### Setup Beautiful Soup
+Pt. 1
+Create a new template for displaying information sourced from another website. Use Beautiful Soup (BS) to scrape the site and find relevant information.
+
+1. Created a new template for displaying the content
+2. Used BS to get the html data from a selected site as a navigable object
+3. Utilized functions of BS to find sections of data based on tags
+
+Pt. 2
+Parse through the html returned and display the information you wnat to display. Make sure you are getting the indivdual elements and stripping away any formatting you don't want. Add a link from your app's home page.
+
+1. Got elements out of the BS object, send just the values desired as relevant objects to the template (nested dictionaries)
+2. Displayed all objects within the data scrape template
+3. Tested to ensure proper functioning, did not need to do error handling
+4. Linked the data scraping page to art app's home page
+
+art_news.html
+```
+{% extends 'artApp/art_base.html' %}
+{% load staticfiles %}
+{% block templatecontent %}
+<section>
+    <div class="flex-container wrapper news">
+        {% for article in articles%} <!-- Iterates through the array of articles -->
+            <!-- Creates a new line for each item, gives the article title and description -->
+            <img src="{{article.img}}"  alt="" width=20%>
+            <h4><a href="{{article.url}}">{{article.title}}</a></h4>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+```
+
+views.py
+```
+#View function for data scraping the Art Newspaper website for current news stories
+def art_news(request):
+    source = requests.get("https://www.theartnewspaper.com/contemporary-art")  # Get contemporaryartdaily.com//news as an html document
+    print(source.status_code)  #Used for debugging to ensure a 'success' code of 200
+    soup = BS(source.content, 'html.parser') #Initial processing of the html by beautiful soup, soup is now a navigatable object
+    nodes = soup.find_all(class_="cp-regulars") # Search for divs with class node-title
+    articles = [] #Create blank array to add articles to
+    for node in nodes:  #Iterates through all the objects with class of node-title
+            title = node.find('h3').get_text() #Sets title equal to the text of the a tag
+            link = node.find('a').get('href') # Sets link equal to the href of the a tag
+            img = node.find('div').get('data-bg')
+            url = "https://www.theartnewspaper.com" + link #Modifies the link to a full url, since the links were relative
+            article = {'title':title, 'url':url, 'img': img} #Creates and article object dictionary with needed elements
+            articles.append(article) #Adds article dictionary item to the array before iterating through next node
+    context={'articles':articles} #Creates a dictionary element for the articles to pass to the template
+    return render(request, 'artApp/art_news.html', context)
+```
+
+urls.py
+```
+ path('artNews/', views.art_news, name='artNews'),  # data scraped news from artnews
+```
+
+[Back to Top](#table-of-contents)
