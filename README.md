@@ -9,15 +9,18 @@ Created a web application in Python using Django to store data from an API servi
 
 ## Story Index
 * [Build the Basic App](#build-the-basic-app)
+* [Create Index Page](#create-index-page)
+* [Create Details Page](#create-details-page)
+* [Create Edit and Delete Functions](create-edit-and-delete-functions)
 
 
 ### Build the Basic App
-1. Create a new app using manage.py startap
-2. Register app from within MainProject>MainProject>settings.py
-3. Create base and home templates in a new template folder
-4. Add function to views to render the home page
-5. Register urls with MainApp and create urls.py for your app and homepage
-6. Add minimal content, such as title, image, etc, and some basic styling to home
+1. Created a new app using manage.py startap
+2. Registered app from within MainProject>MainProject>settings.py
+3. Created base and home templates in a new template folder
+4. Added function to views to render the home page
+5. Registered urls with MainApp and create urls.py for art app and homepage
+6. Added minimal content, such as title, image, etc, and some basic styling to home
 
 settings.py
 ```
@@ -95,10 +98,10 @@ urlpatterns = [
 ```
 
 ### Create Index Page
-1. Create a new index page, link it from your home page
-2. Add in a function that gets all the items from the database and sends them to the template
-3. Display a list of items in the database, with some or all of the fields for that item displayed with labels/header
-4. Link your app's home page to the main home page
+1. Created a new index page, linked it from art home page
+2. Added in a function that gets all the items from the database and sends them to the template
+3. Displays a list of items in the database, with some or all of the fields for that item displayed with labels/header
+4. Linked art app's home page to the main home page
 
 
 art_index.html
@@ -125,7 +128,6 @@ art_index.html
                     <td class="col-md">{{artWork.size}}</td>
                     <td class="col-md">{{artWork.year}}</td>
                     <td class="col-md">{{artWork.location}}</td>
-                    <td class="col-md"><a href="{{artWork.pk}}/Details"><button class="primary-light-button">Details</button></a></td>    <!-- creates a link for that specific art work -->
                 </tr>
             {% endfor %}
         </table>
@@ -161,4 +163,177 @@ urlpatterns = [
     path('', views.home, name='art'),                                #home page
     path('Collection/', views.index, name='listArtWorks'),  # index of art works
 ```
+
+### Create Details Page
+Create a details page that will show the details of any single item from within the database, as selected by the user. Link this to the index page for each item.
+
+1. Added a details template to the template folder, registered the url patterm
+2. Created a views function that will find the single desires instance from the database and send it to the template
+3. Added in links for each element on the index page that will direct to the details page for that item
+4. Displayed all the details of the item on the details page
+
+art_details.html
+```
+{% extends 'artApp/art_base.html' %}
+{% load staticfiles %}
+{% block templatecontent %}
+<section>
+    <div class="flex-container footy">
+        <table>
+            <tr>
+                <th>Artist</th>
+                <td>{{artWork.artist}}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{artWork.title}}</td>
+            </tr>
+            <tr>
+                <th>Medium</th>
+                <td>{{artWork.medium}}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{artWork.size}}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{artWork.year}}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{artWork.location}}</td>
+            </tr>
+        </table>
+        <div class="row">
+            <button class="primary-light-button col-3" type=button" onclick=" location.href='../../{{artWork.pk}}/Edit'">Edit this Art Work</button> <!-- will redirect to this items edit page -->
+            <button class="primary-light-button col-3" type="button" onclick=" location.href='../../{{artWork.pk}}/Delete'">Delete this Art Work</button>
+        </div>
+        <hr />
+        <button class="primary-bright-button" type="button" onclick=" location.href='{% url 'listArtWorks' %}'">Back to Collection</button>
+    </div>
+</section>
+{% endblock %}
+```
+
+views.py
+```
+#View function to look up the details of an art work
+def details_artWork(request, pk):
+    pk = int(pk)                                #Casts value of pk to an int so it's in the proper form
+    artWork = get_object_or_404(ArtWork, pk=pk)   #Gets single instance of the art work from the database
+    context={'artWork':artWork}                   #Creates dictionary object to pass the art work object
+    return render(request,'artApp/art_details.html', context)
+```
+
+art_index.html
+```
+<td class="col-md"><a href="{{artWork.pk}}/Details"><button class="primary-light-button">Details</button></a></td>    <!-- creates a link for that specific art work -->
+```
+
+### Create Edit and Delete Functions
+Allow for edit and delete functions to be done from the details page or from separate pages. Have confirmation before deleting.
+
+1. Added an edit page to the templates (a pattern url)
+2. Used model forms and instances to display the content of a single item from the database
+3. Set the views function to send the information for the single item and save any changes
+4. Included the option to delete an item with a confirmation that the user wants to delete
+
+art_edit.html
+```
+{% extends 'artApp/art_base.html' %}
+{% load staticfiles %}
+{% block templatecontent %}
+<section>
+    <div class="flex-container footy">
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            {{ form.non_field_errors}}
+            <button class="primary-light-button" type="submit">Update Art Work</button>
+        </form>
+        <hr />
+        <button class="primary-bright-button" type="button" onclick=" location.href='{% url 'listArtWorks' %}'">Back to Collection</button>
+    </div>
+</section>
+{% endblock %}
+```
+
+art_delete.html
+```
+{% extends 'artApp/art_base.html' %}
+{% load staticfiles %}
+{% block templatecontent %}
+<section>
+    <div class="flex-container">
+        <div class="footy"><h4>Are you sure you want to delete this art work?</h4></div>
+        <div class="footy">
+        <table>
+            <tr>
+                <th>Artist</th>
+                <td>{{artWork.artist}}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{artWork.title}}</td>
+            </tr>
+            <tr>
+                <th>Medium</th>
+                <td>{{artWork.medium}}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{artWork.size}}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{artWork.year}}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{artWork.location}}</td>
+            </tr>
+        </table>
+        <form method="post">
+            {% csrf_token %}
+        <button  class="primary-light-button" type="submit">Delete this Art Work</button>
+        </form>
+        <hr />
+        <button class="primary-bright-button" type="button" onclick=" location.href='{% url 'listArtWorks' %}'">Back to Collection</button>
+    </div>
+    </div>
+</section>
+{% endblock %}
+```
+
+view.py
+```
+#View function to edit the details of a art work
+def edit_artWork(request, pk):
+    pk = int(pk)
+    artWork = ArtWork.ArtWorks.get(pk=pk)          #Alternate way to get the single art work from the database
+    form = ArtWorkForm(data=request.POST or None, instance=artWork)   #Creates a form filled in with the details of this art work
+    if request.method == 'POST':                #If the form is being posted back with changes
+        if form.is_valid():                     #Check that the form is still valid
+            form.save()                         #Save the changes made to the art work details
+            return redirect('artWorkDetails',pk) #Redirect to the details page for that art work
+        else:                                   #Else for form not being valid
+            print(form.errors)
+    else:                                       #Else for request not being Post method
+        return render(request,'artApp/art_edit.html', {'form':form})
+
+#View function for deleting a art work
+def delete_artWork(request, pk):
+    pk = int(pk)
+    artWork = ArtWork.ArtWorks.get(pk=pk)
+    context = {'artWork': artWork}            #Sets the art work to a dictionary item for the template
+    if request.method == 'POST':            #If the user posts a form, in this case just a delete button
+        artWork.delete()                     #Deletes the art work from the database
+        return redirect('listArtWorks')            #Redirects back to the index
+    else:
+        return render(request, 'artApp/art_delete.html', context)
+```
+
 
