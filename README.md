@@ -11,7 +11,7 @@ Created a web application in Python using Django to store data from an API servi
 * [Build the Basic App](#build-the-basic-app)
 * [Create Index Page](#create-index-page)
 * [Create Details Page](#create-details-page)
-* [Create Edit and Delete Functions](create-edit-and-delete-functions)
+* [Create Edit and Delete Functions](#create-edit-and-delete-functions)
 
 
 ### Build the Basic App
